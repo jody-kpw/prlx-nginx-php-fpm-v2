@@ -7,7 +7,7 @@ printf "\033[1;1m ____   __    ____    __    __    __      __    _  _
 
 printf "\n\033[1;1mRunning Nginx PHP-FPM web mode\033[0m\n\n"
 
-exec /configure.sh
+/configure.sh
 
 printf "\n\033[1;1mStarting supervisord\033[0m\n\n"
 
