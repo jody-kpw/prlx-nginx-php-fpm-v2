@@ -1,5 +1,7 @@
+[1] [Tue Jul 23 12:00:19.0007 2019] [notice] socket connected: /run/atatus.sock fd: 4
 [PHP Modules]
 apcu
+atatus
 bcmath
 bz2
 calendar
@@ -63,3 +65,4 @@ zlib
 [Zend Modules]
 Zend OPcache
 
+[1] [Tue Jul 23 12:00:19.0008 2019] [error] Error: License Key is not set. Please set license_key in atatus.ini

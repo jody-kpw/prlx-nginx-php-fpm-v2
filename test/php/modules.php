@@ -14,7 +14,7 @@ foreach ($phpVersions as $key => $phpVersion) {
 
 	// Filter some lines out
 	foreach ($modules[$phpVersion] as $lineKey => $line) {
-		if ($line === '[PHP Modules]' || $line === '' || $line === '[Zend Modules]') {
+		if ($line === '[PHP Modules]' || $line === '' || $line === '[Zend Modules]' || strstr($line, '[')) {
 			unset($modules[$phpVersion][$lineKey]);
 		}
 	}
