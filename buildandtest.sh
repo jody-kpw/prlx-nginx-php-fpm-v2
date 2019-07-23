@@ -53,5 +53,3 @@ docker tag prlx-nginx-php-fpm:earth-7.3 prlx/prlx-nginx-php-fpm-v2:7.3-$bamboo_p
 docker push prlx/prlx-nginx-php-fpm-v2:7.1-$bamboo_planRepository_branchName
 docker push prlx/prlx-nginx-php-fpm-v2:7.2-$bamboo_planRepository_branchName
 docker push prlx/prlx-nginx-php-fpm-v2:7.3-$bamboo_planRepository_branchName
-
-git add -A && git commit -m "Bamboo build $bamboo_buildNumber" && git push origin $bamboo_planRepository_branchName
