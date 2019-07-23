@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 PLATFORM='unknown'
 UNAMESTR=`uname`
 if [[ "$UNAMESTR" == 'Linux' ]]; then
