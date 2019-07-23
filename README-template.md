@@ -1,5 +1,7 @@
 # prlx-nginx-php-fpm
 
+## Last build: {{ LAST_BUILD }}
+
 ## Based on https://github.com/phpearth/docker-php repositories
 
 > A relatively clean but full-featured, usable nginx and php-fpm docker image supporting PHP versions 7.1, 7.2, 7.3 maintained by [Parallax](https://parall.ax/)
@@ -8,9 +10,9 @@
 
 | PHP           | Nginx         | Docker tag                          |
 | ------------- | ------------- | -------------                       |
-| {{ PHP7.1 }}           | {{ NGINX7.1 }}        | prlx/prlx-nginx-php-fpm-v2:7.1-master   |
-| {{ PHP7.2 }}           | {{ NGINX7.2 }}        | prlx/prlx-nginx-php-fpm-v2:7.2-master   |
-| {{ PHP7.3 }}           | {{ NGINX7.3 }}        | prlx/prlx-nginx-php-fpm-v2:7.3-master   |
+| {{ PHP7.1 }}           | {{ NGINX7.1 }}        | prlx/prlx-nginx-php-fpm-v2:7.1-{{ BRANCH }}   |
+| {{ PHP7.2 }}           | {{ NGINX7.2 }}        | prlx/prlx-nginx-php-fpm-v2:7.2-{{ BRANCH }}   |
+| {{ PHP7.3 }}           | {{ NGINX7.3 }}        | prlx/prlx-nginx-php-fpm-v2:7.3-{{ BRANCH }}   |
 
 [Browse all tags on Docker Hub](https://hub.docker.com/r/prlx/prlx-nginx-php-fpm-v2/tags/)
 
