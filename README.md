@@ -1,6 +1,6 @@
 # prlx-nginx-php-fpm
 
-## Last build: Tue Jul 23 12:47:18 UTC 2019
+## Last build: Tue Jul 23 12:54:37 UTC 2019
 
 ## Based on https://github.com/phpearth/docker-php repositories
 
