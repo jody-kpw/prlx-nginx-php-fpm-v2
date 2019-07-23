@@ -25,7 +25,7 @@ if [[ "$PLATFORM" == 'linux' ]]; then
 	sed -i -e "s/{{ NGINX7.1 }}/`docker run prlx-nginx-php-fpm:earth-7.1 'nginx' '-v' 2>&1 | sed -e 's/nginx version: nginx\///g'`/g" README.md
 	sed -i -e "s/{{ NGINX7.2 }}/`docker run prlx-nginx-php-fpm:earth-7.2 'nginx' '-v' 2>&1 | sed -e 's/nginx version: nginx\///g'`/g" README.md
 	sed -i -e "s/{{ NGINX7.3 }}/`docker run prlx-nginx-php-fpm:earth-7.3 'nginx' '-v' 2>&1 | sed -e 's/nginx version: nginx\///g'`/g" README.md
-	sed -i -e "s/{{ BRANCH }}/${bamboo.planRepository.branchName}/g" README.md
+	sed -i -e "s/{{ BRANCH }}/$bamboo_planRepository_branchName/g" README.md
 	sed -i -e "s/{{ LAST_BUILD }}/`date`/g" README.md
 elif [[ "$PLATFORM" == 'darwin' ]]; then
   	sed -i '' -e "s/{{ PHP7.1 }}/`docker run prlx-nginx-php-fpm:earth-7.1 "/usr/bin/php" "-r" "echo phpversion();"`/g" README.md
@@ -34,7 +34,7 @@ elif [[ "$PLATFORM" == 'darwin' ]]; then
 	sed -i '' -e "s/{{ NGINX7.1 }}/`docker run prlx-nginx-php-fpm:earth-7.1 'nginx' '-v' 2>&1 | sed -e 's/nginx version: nginx\///g'`/g" README.md
 	sed -i '' -e "s/{{ NGINX7.2 }}/`docker run prlx-nginx-php-fpm:earth-7.2 'nginx' '-v' 2>&1 | sed -e 's/nginx version: nginx\///g'`/g" README.md
 	sed -i '' -e "s/{{ NGINX7.3 }}/`docker run prlx-nginx-php-fpm:earth-7.3 'nginx' '-v' 2>&1 | sed -e 's/nginx version: nginx\///g'`/g" README.md
-	sed -i '' -e "s/{{ BRANCH }}/${bamboo.planRepository.branchName}/g" README.md
+	sed -i '' -e "s/{{ BRANCH }}/$bamboo_planRepository_branchName/g" README.md
 	sed -i '' -e "s/{{ LAST_BUILD }}/`date`/g" README.md
 fi
 
@@ -47,11 +47,11 @@ docker run -e ATATUS_APM_LICENSE_KEY=test prlx-nginx-php-fpm:earth-7.3 "/bin/bas
 docker run -v $PWD:/src prlx-nginx-php-fpm:earth-7.3 "php" "/src/test/php/modules.php"
 
 # Push to Docker
-docker tag prlx-nginx-php-fpm:earth-7.1 prlx/prlx-nginx-php-fpm-v2:7.1-${bamboo.planRepository.branchName}
-docker tag prlx-nginx-php-fpm:earth-7.2 prlx/prlx-nginx-php-fpm-v2:7.2-${bamboo.planRepository.branchName}
-docker tag prlx-nginx-php-fpm:earth-7.3 prlx/prlx-nginx-php-fpm-v2:7.3-${bamboo.planRepository.branchName}
-docker push prlx/prlx-nginx-php-fpm-v2:7.1-${bamboo.planRepository.branchName}
-docker push prlx/prlx-nginx-php-fpm-v2:7.2-${bamboo.planRepository.branchName}
-docker push prlx/prlx-nginx-php-fpm-v2:7.3-${bamboo.planRepository.branchName}
+docker tag prlx-nginx-php-fpm:earth-7.1 prlx/prlx-nginx-php-fpm-v2:7.1-$bamboo_planRepository_branchName
+docker tag prlx-nginx-php-fpm:earth-7.2 prlx/prlx-nginx-php-fpm-v2:7.2-$bamboo_planRepository_branchName
+docker tag prlx-nginx-php-fpm:earth-7.3 prlx/prlx-nginx-php-fpm-v2:7.3-$bamboo_planRepository_branchName
+docker push prlx/prlx-nginx-php-fpm-v2:7.1-$bamboo_planRepository_branchName
+docker push prlx/prlx-nginx-php-fpm-v2:7.2-$bamboo_planRepository_branchName
+docker push prlx/prlx-nginx-php-fpm-v2:7.3-$bamboo_planRepository_branchName
 
-git add -A && git commit -m "Bamboo build ${bamboo.buildNumber}" && git push origin ${bamboo.planRepository.branchName}
+git add -A && git commit -m "Bamboo build $bamboo_buildNumber" && git push origin $bamboo_planRepository_branchName
