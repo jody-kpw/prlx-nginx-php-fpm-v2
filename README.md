@@ -1,5 +1,7 @@
 # prlx-nginx-php-fpm
 
+## Last build: Tue Jul 23 12:47:18 UTC 2019
+
 ## Based on https://github.com/phpearth/docker-php repositories
 
 > A relatively clean but full-featured, usable nginx and php-fpm docker image supporting PHP versions 7.1, 7.2, 7.3 maintained by [Parallax](https://parall.ax/)
@@ -49,6 +51,19 @@ For help running these locally with docker run see the [docker run reference](ht
 The web mode is what you use to run a web server - unless you're using workers this is the only one you'll be using. It runs all the things you need to be able to run a PHP-FPM container in Kubernetes.
 
 It is also the default behaviour for the docker containers meaning you don't need to specify a command or working directory to run.
+
+## Read-Only Root Filesystem
+
+These containers have been designed to utilise the securityContext.readOnlyRootFilesystem: true functionality present in Kubernetes. This locks down the root filesystem and actively avoids any accidental log writes to the "disk" which is actually memory in most cases in Kubernetes/Docker.
+
+The usual result of accidental writes to disk is ballooning memory usage over time followed by an OOM kill which can be both confusing and annoying.
+
+We would suggest mounting emptyDir volumes to the following locations in this image:
+
+| Location | Purpose |
+| --- | --- |
+| /etc/config/write | Configuration is copied into this folder on boot and modified by the /configure-worker.sh and /configure.sh commands |
+| /var/nginx-uploads | Without this, all but the absolute tiniest of file uploads will fail miserably (it's where Nginx buffers files) |
 
 ## Ports and Services
 
@@ -182,4 +197,3 @@ Example:
 | Zend OPcache | ✓ | ✓ | ✓ |
 | zip | ✓ | ✓ | ✓ |
 | zlib | ✓ | ✓ | ✓ |
-
