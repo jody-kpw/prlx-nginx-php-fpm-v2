@@ -9,8 +9,8 @@
 | PHP           | Nginx         | Docker tag                          |
 | ------------- | ------------- | -------------                       |
 | 7.1.28           | 1.14.2        | prlx/prlx-nginx-php-fpm:7.1-earth   |
-| 7.2.17           | 1.14.2        | prlx/prlx-nginx-php-fpm:7.2-earth   |
-| 7.3.4           | 1.14.2        | prlx/prlx-nginx-php-fpm:7.3-earth   |
+| 7.2.17           | {{ NGINX7.2 }}        | prlx/prlx-nginx-php-fpm:7.2-earth   |
+| 7.3.4           | {{ NGINX7.3 }}        | prlx/prlx-nginx-php-fpm:7.3-earth   |
 
 [Browse all tags on Docker Hub](https://hub.docker.com/r/prlx/prlx-nginx-php-fpm/tags/)
 

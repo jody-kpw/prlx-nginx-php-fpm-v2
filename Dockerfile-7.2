@@ -1,0 +1,130 @@
+FROM alpine:3.9
+
+ENV PHP_VERSION=7.2
+ENV ATATUS_VERSION=1.7.0
+
+ENV \
+    # When using Composer, disable the warning about running commands as root/super user
+    COMPOSER_ALLOW_SUPERUSER=1 \
+    # Persistent runtime dependencies
+    DEPS="nginx \
+        nginx-mod-http-headers-more \
+        php$PHP_VERSION \
+        php$PHP_VERSION-phar \
+        php$PHP_VERSION-bcmath \
+        php$PHP_VERSION-calendar \
+        php$PHP_VERSION-mbstring \
+        php$PHP_VERSION-exif \
+        php$PHP_VERSION-ftp \
+        php$PHP_VERSION-openssl \
+        php$PHP_VERSION-zip \
+        php$PHP_VERSION-sysvsem \
+        php$PHP_VERSION-sysvshm \
+        php$PHP_VERSION-sysvmsg \
+        php$PHP_VERSION-shmop \
+        php$PHP_VERSION-sockets \
+        php$PHP_VERSION-zlib \
+        php$PHP_VERSION-bz2 \
+        php$PHP_VERSION-curl \
+        php$PHP_VERSION-simplexml \
+        php$PHP_VERSION-xml \
+        php$PHP_VERSION-opcache \
+        php$PHP_VERSION-dom \
+        php$PHP_VERSION-xmlreader \
+        php$PHP_VERSION-xmlwriter \
+        php$PHP_VERSION-tokenizer \
+        php$PHP_VERSION-ctype \
+        php$PHP_VERSION-gd \
+        php$PHP_VERSION-gettext \
+        php$PHP_VERSION-imagick \
+        php$PHP_VERSION-intl \
+        php$PHP_VERSION-ldap \
+        php$PHP_VERSION-intl \
+        php$PHP_VERSION-memcached \
+        php$PHP_VERSION-mysqli \
+        php$PHP_VERSION-mysqlnd \
+        php$PHP_VERSION-pcntl \
+        php$PHP_VERSION-pdo \
+        php$PHP_VERSION-pdo_mysql \
+        php$PHP_VERSION-pdo_sqlite \
+        php$PHP_VERSION-redis \
+        php$PHP_VERSION-soap \
+        php$PHP_VERSION-sqlite3 \
+        php$PHP_VERSION-tidy \
+        php$PHP_VERSION-tokenizer \
+        php$PHP_VERSION-wddx \
+        php$PHP_VERSION-xsl \
+        php$PHP_VERSION-session \
+        php$PHP_VERSION-fileinfo \
+        php$PHP_VERSION-iconv \
+        php$PHP_VERSION-json \
+        php$PHP_VERSION-posix \
+        php$PHP_VERSION-xmlrpc \
+        php$PHP_VERSION-fpm \
+        php$PHP_VERSION-apcu \
+        curl \
+        ca-certificates \
+        supervisor \
+        bash \
+        tzdata \
+        openssl \
+        wget \
+        curl"
+
+# PHP.earth Alpine repository for better developer experience
+ADD https://repos.php.earth/alpine/phpearth.rsa.pub /etc/apk/keys/phpearth.rsa.pub
+
+RUN set -x \
+    && echo "https://repos.php.earth/alpine/v3.9" >> /etc/apk/repositories \
+    && apk add --no-cache $DEPS \
+    && ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
+
+# Atatus
+RUN wget https://s3.amazonaws.com/atatus-artifacts/atatus-php/downloads/atatus-php-$ATATUS_VERSION-x64-musl.tar.gz && tar -xzvf atatus-php-$ATATUS_VERSION-x64-musl.tar.gz && cd atatus-php-$ATATUS_VERSION-x64-musl && ./install.sh && rm -f /atatus-php-$ATATUS_VERSION-x64-musl.tar.gz && rm -rf /atatus-php-$ATATUS_VERSION-x64-musl
+RUN sed -i -e 's#atatus.trace.response_time = 2000#atatus.trace.response_time = 1500#g' /etc/php/$PHP_VERSION/conf.d/atatus.ini && \
+  sed -i -e 's#atatus.collector.pidfile = "/var/run/atatus-php-collector.pid"#atatus.collector.pidfile = "/run/atatus-php-collector.pid"#g' /etc/php/$PHP_VERSION/conf.d/atatus.ini && \
+  sed -i -e 's#atatus.collector.connection = "/tmp/.atatus.sock"#atatus.collector.connection = "/run/atatus.sock"#g' /etc/php/$PHP_VERSION/conf.d/atatus.ini
+# Write log files to stdout
+RUN rm -f /var/log/atatus/agent.log && rm -f /var/log/atatus/collector.log && rm -f /var/log/atatus/debug.txt && ln -sf /dev/stdout /var/log/atatus/agent.log && ln -sf /dev/stdout /var/log/atatus/collector.log && ln -sf /dev/stdout /var/log/atatus/debug.txt
+
+# Supervisor
+ADD conf/supervisord.conf /etc/supervisord.conf
+ADD conf/supervisor.d /etc/supervisor.d
+RUN ln -sf /etc/config/write/supervisord-enabled /etc/supervisord-enabled && mkdir -p /etc/supervisord-worker
+
+RUN mkdir -p /etc/config/read /etc/config/write /etc/config/read/supervisord-enabled /etc/config/read/php /etc/config/read/php/conf.d /etc/config/read/nginx/sites-enabled
+
+# Configuration files
+# Atatus
+RUN mv /etc/php/$PHP_VERSION/conf.d/atatus.ini /etc/config/read/php/conf.d/atatus.ini && ln -sf /etc/config/write/php/conf.d/atatus.ini /etc/php/$PHP_VERSION/conf.d/atatus.ini
+
+# Nginx Config
+# Main config
+ADD conf/nginx.conf /etc/config/read/nginx/nginx.conf
+RUN rm -f /etc/nginx/nginx.conf && ln -sf /etc/config/write/nginx/nginx.conf /etc/nginx/nginx.conf
+# Site config
+ADD conf/nginx-site.conf /etc/config/read/nginx/sites-enabled/site.conf
+RUN ln -sf /etc/config/write/nginx/sites-enabled /etc/nginx/sites-enabled
+
+# PHP Config
+ADD conf/php-fpm.conf /etc/config/read/php/php-fpm.conf
+#RUN rm -f /etc/php/$PHP_VERSION/php-fpm.conf && ln -sf /etc/config/write/php/php-fpm.conf /etc/php/$PHP_VERSION/php-fpm.conf
+ADD conf/php.ini /etc/config/read/php/php.ini
+RUN rm -f /etc/php/$PHP_VERSION/php.ini && ln -sf /etc/config/write/php/php.ini /etc/php/$PHP_VERSION/php.ini
+ADD conf/php-www.conf /etc/config/read/php/www.conf
+RUN rm -f /etc/php/$PHP_VERSION/php-fpm.d/www.conf && ln -sf /etc/config/write/php/www.conf /etc/php/$PHP_VERSION/php-fpm.d/www.conf
+
+# Scripts
+ADD scripts/start-web.sh /start-web.sh
+RUN chmod 755 /start-web.sh
+ADD scripts/start-worker.sh /start-worker.sh
+RUN chmod 755 /start-worker.sh
+ADD scripts/supervisor-healthcheck.sh /supervisor-healthcheck.sh
+RUN chmod 755 /supervisor-healthcheck.sh
+ADD scripts/configure.sh /configure.sh
+RUN chmod 755 /configure.sh
+ADD scripts/configure-worker.sh /configure-worker.sh
+RUN chmod 755 /configure-worker.sh
+
+CMD ["/start-web.sh"]
