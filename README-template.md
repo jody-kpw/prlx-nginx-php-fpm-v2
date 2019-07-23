@@ -50,6 +50,19 @@ The web mode is what you use to run a web server - unless you're using workers t
 
 It is also the default behaviour for the docker containers meaning you don't need to specify a command or working directory to run.
 
+## Read-Only Root Filesystem
+
+These containers have been designed to utilise the securityContext.readOnlyRootFilesystem: true functionality present in Kubernetes. This locks down the root filesystem and actively avoids any accidental log writes to the "disk" which is actually memory in most cases in Kubernetes/Docker.
+
+The usual result of accidental writes to disk is ballooning memory usage over time followed by an OOM kill which can be both confusing and annoying.
+
+We would suggest mounting emptyDir volumes to the following locations in this image:
+
+| Location | Purpose |
+| --- | --- |
+| /etc/config/write | Configuration is copied into this folder on boot and modified by the /configure-worker.sh and /configure.sh commands |
+| /var/nginx-uploads | Without this, all but the absolute tiniest of file uploads will fail miserably (it's where Nginx buffers files) |
+
 ## Ports and Services
 
 Not everything is as straightforward as the idealistic world of Docker would have you believe. The "one process per container" doesn't really work for us in the real world so we've gone with "one logical service per container" instead.
