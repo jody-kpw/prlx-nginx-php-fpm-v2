@@ -64,9 +64,7 @@ We would suggest mounting emptyDir volumes to the following locations in this im
 | --- | --- |
 | /etc/config/write | Configuration is copied into this folder on boot and modified by the /configure-worker.sh and /configure.sh commands |
 | /var/nginx-uploads | Without this, all but the absolute tiniest of file uploads will fail miserably (it's where Nginx buffers files) |
-| /run | Where lock files, pids and sockets are kept. Stuff won't start properly without these. |
-| /run | Where lock files, pids and sockets are kept. Stuff won't start properly without these. |
-| /run | Where lock files, pids and sockets are kept. Stuff won't start properly without these. |
+| /var/tmp/nginx | Where nginx stores any buffered content from proxied connections to PHP-FPM |
 
 
 
