@@ -1,6 +1,6 @@
 # prlx-nginx-php-fpm
 
-## Last build: Mon Jul 29 10:27:47 UTC 2019
+## Last build: Mon Jul 29 13:28:16 UTC 2019
 
 ## Based on https://github.com/phpearth/docker-php repositories
 
@@ -45,6 +45,15 @@ For help running these locally with docker run see the [docker run reference](ht
 | PHP_SESSION_STORE_REDIS_PORT    | If not set, defaults to 6379. Only used if PHP_SESSION_STORE is set to redis                                    | ✖        | ✓   | ✓      |
 | PHP_DISABLE_CACHE_HEADERS       | Set to any value (1, true, etc) to disable PHP's default pragma: no-cache headers                               | ✖        | ✓   | ✖      |
 | PHP_ENABLE_SHORT_TAGS           | Set to any value (1, true, etc) to enable PHP short tagging                                                     | ✖        | ✓   | ✓      |
+
+# Health Checks
+There are two health checks built-in:
+
+## HTTP Health Check
+This operates on /healthz, port 80 (or whatever you set as NGINX_PORT). It will return 200 OK if PHP-FPM is responding to Nginx requests.
+
+## Supervisor Health Check
+Can be used in Kubernetes with a command-based health check, located at /supervisor-healthcheck.sh. Will exit 0 if no supervisor processes are in a fatal state, otherwise will exit 1 (and fail the check).
 
 # The web mode/command
 
