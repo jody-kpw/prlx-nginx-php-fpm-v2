@@ -2,18 +2,18 @@
 printf "Copying configuration to writeable folder\n"
 cp -R /etc/config/read/* /etc/config/write/
 
-# printf "%-30s %-30s\n" "Key" "Value"
+# printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Key" "Value"
 
 # Container info:
-printf "%-30s %-30s\n" "\e[35mSite:\e[0m" "$SITE_NAME"
-printf "%-30s %-30s\n" "\e[35mBranch:\e[0m" "$SITE_BRANCH"
-printf "%-30s %-30s\n" "\e[35mEnvironment:\e[0m" "$ENVIRONMENT"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "\e[35mSite:\e[0m" "$SITE_NAME"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "\e[35mBranch:\e[0m" "$SITE_BRANCH"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "\e[35mEnvironment:\e[0m" "$ENVIRONMENT"
 
 # Atatus - if api key is set then configure and enable
 if [ ! -z "$ATATUS_APM_LICENSE_KEY" ] && [ "$ATATUS_APM_LICENSE_KEY" != "test" ]; then
 
     # Enabled
-    printf "%-30s %-30s\n" "Atatus:" "Enabled"
+    printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Atatus:" "Enabled"
 
     # Set the atatus api key
     sed -i -e "s/atatus.license_key = \"\"/atatus.license_key = \"$ATATUS_APM_LICENSE_KEY\"/g" /etc/config/write/php/conf.d/atatus.ini
@@ -36,7 +36,7 @@ fi
 if [ -z "$ATATUS_APM_LICENSE_KEY" ] && [ "$ATATUS_APM_LICENSE_KEY" != "test" ]; then
 
     # Disabled
-    printf "%-30s %-30s\n" "Atatus:" "Disabled"
+    printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Atatus:" "Disabled"
     rm -f /etc/config/write/php/conf.d/atatus.ini
 
 fi
@@ -45,7 +45,7 @@ fi
 if [ ! -z "$ATATUS_APM_RAW_SQL" ]; then
 
     # Enabled
-    printf "%-30s %-30s\n" "Atatus SQL:" "Raw"
+    printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Atatus SQL:" "Raw"
 
     # Set the atatus api key
     sed -i -e "s/atatus.sql.capture = \"normalized\"/atatus.sql.capture = \"raw\"/g" /etc/config/write/php/conf.d/atatus.ini
@@ -56,7 +56,7 @@ fi
 if [ ! -z "$ATATUS_APM_LARAVEL_QUEUES" ]; then
 
     # Enabled
-    printf "%-30s %-30s\n" "Atatus Laravel Queues:" "Yes"
+    printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Atatus Laravel Queues:" "Yes"
 
     # Set the atatus api key
     sed -i -e "s/atatus.laravel.enable_queues = false/atatus.laravel.enable_queues = true/g" /etc/config/write/php/conf.d/atatus.ini
@@ -66,8 +66,8 @@ fi
 php -r 'echo "";'
 
 # Version numbers:
-printf "%-30s %-30s\n" "PHP Version:" "`php -r 'echo phpversion();'`"
-printf "%-30s %-30s\n" "Nginx Version:" "`/usr/sbin/nginx -v 2>&1 | sed -e 's/nginx version: nginx\///g'`"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "PHP Version:" "`php -r 'echo phpversion();'`"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Nginx Version:" "`/usr/sbin/nginx -v 2>&1 | sed -e 's/nginx version: nginx\///g'`"
 
 # PHP Max Memory
 # If set
@@ -79,19 +79,19 @@ if [ ! -z "$PHP_MEMORY_MAX" ]; then
 fi
 
 # Print the real value
-printf "%-30s %-30s\n" "PHP Memory Max:" "`php -r 'echo ini_get("memory_limit");'`"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "PHP Memory Max:" "`php -r 'echo ini_get("memory_limit");'`"
 
 # PHP Opcache
 # If not set
 if [ -z "$DISABLE_OPCACHE" ]; then
     
-    printf "%-30s %-30s\n" "PHP Opcache:" "Enabled"
+    printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "PHP Opcache:" "Enabled"
 
 fi
 # If set
 if [ ! -z "$DISABLE_OPCACHE" ]; then
     
-    printf "%-30s %-30s\n" "PHP Opcache:" "Disabled"
+    printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "PHP Opcache:" "Disabled"
     
     # Set PHP.ini accordingly
     sed -i -e "s#opcache.enable=1#opcache.enable=0#g" /etc/config/write/php/php.ini
@@ -109,7 +109,7 @@ if [ ! -z "$PHP_OPCACHE_MEMORY" ]; then
 fi
 
 # Print the real value
-printf "%-30s %-30s\n" "Opcache Memory Max:" "`php -r 'echo ini_get("opcache.memory_consumption");'`M"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Opcache Memory Max:" "`php -r 'echo ini_get("opcache.memory_consumption");'`M"
 
 # PHP Session Config
 # If set
@@ -123,9 +123,9 @@ if [ ! -z "$PHP_SESSION_STORE" ]; then
         if [ -z $PHP_SESSION_STORE_REDIS_PORT ]; then
             PHP_SESSION_STORE_REDIS_PORT='6379'
         fi
-        printf "%-30s %-30s\n" "PHP Sessions:" "Redis"
-        printf "%-30s %-30s\n" "PHP Redis Host:" "$PHP_SESSION_STORE_REDIS_HOST"
-        printf "%-30s %-30s\n" "PHP Redis Port:" "$PHP_SESSION_STORE_REDIS_PORT"
+        printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "PHP Sessions:" "Redis"
+        printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "PHP Redis Host:" "$PHP_SESSION_STORE_REDIS_HOST"
+        printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "PHP Redis Port:" "$PHP_SESSION_STORE_REDIS_PORT"
         sed -i -e "s#session.save_handler = files#session.save_handler = redis\nsession.save_path = \"tcp://$PHP_SESSION_STORE_REDIS_HOST:$PHP_SESSION_STORE_REDIS_PORT\"#g" /etc/config/write/php/php.ini
     fi
 
@@ -141,7 +141,7 @@ fi
 if [ ! -z "$DISABLE_CRON" ]; then
 
     # Disabled
-    printf "%-30s %-30s\n" "Cron:" "Disabled"
+    printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Cron:" "Disabled"
 
 fi
 
@@ -149,7 +149,7 @@ fi
 if [ -z "$DISABLE_CRON" ]; then
 
     # Enabled
-    printf "%-30s %-30s\n" "Cron:" "Enabled"
+    printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Cron:" "Enabled"
 
     cp /etc/supervisor.d/cron.conf /etc/config/write/supervisord-enabled/
 
@@ -183,17 +183,17 @@ if [ -z "$MAIL_PORT" ]; then
     export MAIL_PORT=25
 fi
 
-printf "%-30s %-30s\n" "SMTP:" "$MAIL_HOST:$MAIL_PORT"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "SMTP:" "$MAIL_HOST:$MAIL_PORT"
 sed -i -e "s#sendmail_path = /usr/sbin/sendmail -t -i#sendmail_path = /usr/sbin/sendmail -t -i -S $MAIL_HOST:$MAIL_PORT#g" /etc/config/write/php/php.ini
 
 # Startup scripts
 if [ -f /startup-all.sh ]; then
-    printf "%-30s %-30s\n" "Startup Script:" "Running"
+    printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Startup Script:" "Running"
     ./startup-all.sh
 fi
 
 if [ -f /startup-worker.sh ]; then
-    printf "%-30s %-30s\n" "Worker Startup Script:" "Running"
+    printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Worker Startup Script:" "Running"
     ./startup-worker.sh
 fi
 
