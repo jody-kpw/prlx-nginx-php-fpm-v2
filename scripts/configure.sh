@@ -5,9 +5,9 @@ cp -R /etc/config/read/* /etc/config/write/
 # printf "%-30s %-30s\n" "Key" "Value"
 
 # Container info:
-printf "%-30s %-30s\n" "Site:" "$SITE_NAME"
-printf "%-30s %-30s\n" "Branch:" "$SITE_BRANCH"
-printf "%-30s %-30s\n" "Environment:" "$ENVIRONMENT"
+printf "%-30s %-30s\n" "\e[35mSite:\e[0m" "$SITE_NAME"
+printf "%-30s %-30s\n" "\e[35mBranch:\e[0m" "$SITE_BRANCH"
+printf "%-30s %-30s\n" "\e[35mEnvironment:\e[0m" "$ENVIRONMENT"
 
 # Enable Nginx
 cp /etc/supervisor.d/nginx.conf /etc/supervisord-enabled/
