@@ -1,6 +1,6 @@
 # prlx-nginx-php-fpm
 
-## Last build: Thu Jul 25 10:39:14 UTC 2019
+## Last build: Mon Jul 29 10:27:47 UTC 2019
 
 ## Based on https://github.com/phpearth/docker-php repositories
 
@@ -65,6 +65,7 @@ We would suggest mounting emptyDir volumes to the following locations in this im
 | /etc/config/write | Configuration is copied into this folder on boot and modified by the /configure-worker.sh and /configure.sh commands |
 | /var/nginx-uploads | Without this, all but the absolute tiniest of file uploads will fail miserably (it's where Nginx buffers files) |
 | /var/tmp/nginx | Where nginx stores any buffered content from proxied connections to PHP-FPM |
+| /tmp | Linux is generally unhappy if this isn't writeable. Things like PHP use it for temporary storage. |
 
 
 

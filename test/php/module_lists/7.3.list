@@ -1,4 +1,4 @@
-[1] [Thu Jul 25 10:39:19.0000 2019] [notice] socket connected: /run/atatus.sock fd: 4
+[1] [Mon Jul 29 10:27:51.0098 2019] [notice] socket connected: /run/atatus.sock fd: 4
 [PHP Modules]
 apcu
 atatus
@@ -65,4 +65,4 @@ zlib
 [Zend Modules]
 Zend OPcache
 
-[1] [Thu Jul 25 10:39:19.0001 2019] [error] Error: License Key is not set. Please set license_key in atatus.ini
+[1] [Mon Jul 29 10:27:51.0098 2019] [error] Error: License Key is not set. Please set license_key in atatus.ini
