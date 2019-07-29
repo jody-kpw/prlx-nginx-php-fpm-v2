@@ -178,7 +178,7 @@ if [ ! -z "$MAX_EXECUTION_TIME" ]; then
 fi
 
 # Print the value
-printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Nginx Max Read:" "`cat /etc/config/write/nginx/sites-enabled/site.conf | grep 'fastcgi_read_timeout' | sed -e 's/fastcgi_read_timeout//g'`"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Nginx Max Read:" "`cat /etc/config/write/nginx/sites-enabled/site.conf | grep 'fastcgi_read_timeout' | sed -e 's/fastcgi_read_timeout//g' | sed 's/[[:space:]]//g' | sed 's/;//g'`"
 
 # Print the value
 printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "PHP Max Execution Time:" "`cat /etc/config/write/php/php.ini | grep 'max_execution_time = ' | sed -e 's/max_execution_time = //g'`"
