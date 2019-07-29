@@ -86,7 +86,7 @@ RUN sed -i -e 's#atatus.trace.response_time = 2000#atatus.trace.response_time = 
   sed -i -e 's#atatus.collector.pidfile = "/var/run/atatus-php-collector.pid"#atatus.collector.pidfile = "/run/atatus-php-collector.pid"#g' /etc/php/$PHP_VERSION/conf.d/atatus.ini && \
   sed -i -e 's#atatus.collector.connection = "/tmp/.atatus.sock"#atatus.collector.connection = "/run/atatus.sock"#g' /etc/php/$PHP_VERSION/conf.d/atatus.ini
 # Write log files to stdout
-RUN rm -f /var/log/atatus/agent.log && rm -f /var/log/atatus/collector.log && rm -f /var/log/atatus/debug.txt && ln -sf /dev/stdout /var/log/atatus/agent.log && ln -sf /dev/stdout /var/log/atatus/collector.log && ln -sf /dev/stdout /var/log/atatus/debug.txt
+RUN rm -f /var/log/atatus/agent.log && rm -f /var/log/atatus/collector.log && rm -f /var/log/atatus/debug.txt && ln -sf /dev/null /var/log/atatus/agent.log && ln -sf /dev/null /var/log/atatus/collector.log && ln -sf /dev/null /var/log/atatus/debug.txt
 
 # Supervisor
 ADD conf/supervisord.conf /etc/supervisord.conf

@@ -5,9 +5,9 @@ cp -R /etc/config/read/* /etc/config/write/
 # printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Key" "Value"
 
 # Container info:
-printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "\e[35mSite:\e[0m" "$SITE_NAME"
-printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "\e[35mBranch:\e[0m" "$SITE_BRANCH"
-printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "\e[35mEnvironment:\e[0m" "$ENVIRONMENT"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Site:" "$SITE_NAME"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Branch:" "$SITE_BRANCH"
+printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Environment:" "$ENVIRONMENT"
 
 # Atatus - if api key is set then configure and enable
 if [ ! -z "$ATATUS_APM_LICENSE_KEY" ] && [ "$ATATUS_APM_LICENSE_KEY" != "test" ]; then
