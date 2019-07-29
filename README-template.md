@@ -46,6 +46,15 @@ For help running these locally with docker run see the [docker run reference](ht
 | PHP_DISABLE_CACHE_HEADERS       | Set to any value (1, true, etc) to disable PHP's default pragma: no-cache headers                               | ✖        | ✓   | ✖      |
 | PHP_ENABLE_SHORT_TAGS           | Set to any value (1, true, etc) to enable PHP short tagging                                                     | ✖        | ✓   | ✓      |
 
+# Health Checks
+There are two health checks built-in:
+
+## HTTP Health Check
+This operates on /healthz, port 80 (or whatever you set as NGINX_PORT). It will return 200 OK if PHP-FPM is responding to Nginx requests.
+
+## Supervisor Health Check
+Can be used in Kubernetes with a command-based health check, located at /supervisor-healthcheck.sh. Will exit 0 if no supervisor processes are in a fatal state, otherwise will exit 1 (and fail the check).
+
 # The web mode/command
 
 The web mode is what you use to run a web server - unless you're using workers this is the only one you'll be using. It runs all the things you need to be able to run a PHP-FPM container in Kubernetes.

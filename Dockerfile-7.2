@@ -115,6 +115,9 @@ RUN rm -f /etc/php/$PHP_VERSION/php.ini && ln -sf /etc/config/write/php/php.ini 
 ADD conf/php-www.conf /etc/config/read/php/www.conf
 RUN rm -f /etc/php/$PHP_VERSION/php-fpm.d/www.conf && ln -sf /etc/config/write/php/www.conf /etc/php/$PHP_VERSION/php-fpm.d/www.conf
 
+# Cron
+RUN mkdir -p /etc/config/read/cron.d && ln -sf /etc/config/write/cron.d /etc/cron.d
+
 # Scripts
 ADD scripts/start-web.sh /start-web.sh
 RUN chmod 755 /start-web.sh
@@ -122,6 +125,8 @@ ADD scripts/start-worker.sh /start-worker.sh
 RUN chmod 755 /start-worker.sh
 ADD scripts/supervisor-healthcheck.sh /supervisor-healthcheck.sh
 RUN chmod 755 /supervisor-healthcheck.sh
+ADD scripts/healthcheck.py /healthcheck.py
+RUN chmod 755 /healthcheck.py
 ADD scripts/configure.sh /configure.sh
 RUN chmod 755 /configure.sh
 ADD scripts/configure-worker.sh /configure-worker.sh
