@@ -189,12 +189,18 @@ sed -i -e "s#sendmail_path = /usr/sbin/sendmail -t -i#sendmail_path = /usr/sbin/
 # Startup scripts
 if [ -f /startup-all.sh ]; then
     printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Startup Script:" "Running"
-    ./startup-all.sh
+    mkdir -p /etc/config/write/scripts
+    cp /startup-all.sh /etc/config/write/scripts/
+    chmod +x /etc/config/write/scripts/startup-all.sh
+    /etc/config/write/scripts/startup-all.sh
 fi
 
 if [ -f /startup-worker.sh ]; then
     printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Worker Startup Script:" "Running"
-    ./startup-worker.sh
+    mkdir -p /etc/config/write/scripts
+    cp /startup-worker.sh /etc/config/write/scripts/
+    chmod +x /etc/config/write/scripts/startup-worker.sh
+    /etc/config/write/scripts/startup-worker.sh
 fi
 
 # Enable the worker-specific supervisor files

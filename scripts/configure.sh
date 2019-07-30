@@ -242,12 +242,18 @@ sed -i -e "s#sendmail_path = /usr/sbin/sendmail -t -i#sendmail_path = /usr/sbin/
 # Startup scripts
 if [ -f /startup-all.sh ]; then
     printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Startup Script:" "Running"
-    chmod +x /startup-all.sh && ./startup-all.sh
+    mkdir -p /etc/config/write/scripts
+    cp /startup-all.sh /etc/config/write/scripts/
+    chmod +x /etc/config/write/scripts/startup-all.sh
+    /etc/config/write/scripts/startup-all.sh
 fi
 
 if [ -f /startup-web.sh ]; then
     printf "\e[94m%-30s\e[0m \e[35m%-30s\e[0m\n" "Web Startup Script:" "Running"
-    chmod +x /startup-web.sh && ./startup-web.sh
+    mkdir -p /etc/config/write/scripts
+    cp /startup-web.sh /etc/config/write/scripts/
+    chmod +x /etc/config/write/scripts/startup-web.sh
+    /etc/config/write/scripts/startup-web.sh
 fi
 
 # Print the value
