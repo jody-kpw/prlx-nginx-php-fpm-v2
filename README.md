@@ -1,6 +1,6 @@
 # prlx-nginx-php-fpm
 
-## Last build: Mon Jul 29 17:29:17 UTC 2019
+## Last build: Tue Jul 30 14:21:41 UTC 2019
 
 ## Based on https://github.com/phpearth/docker-php repositories
 
@@ -8,11 +8,11 @@
 
 ## Docker Tags 
 
-| PHP           | Nginx         | Docker tag                          |
-| ------------- | ------------- | -------------                       |
-| 7.1.28           | 1.14.2        | prlx/prlx-nginx-php-fpm-v2:7.1-master   |
-| 7.2.17           | 1.14.2        | prlx/prlx-nginx-php-fpm-v2:7.2-master   |
-| 7.3.4           | 1.14.2        | prlx/prlx-nginx-php-fpm-v2:7.3-master   |
+| PHP           | Nginx         | Composer         | Docker tag                             |
+| ------------- | ------------- | -------------    | -------------                          |
+| 7.1.28           | 1.14.2        | 1.8.6 2019-06-11 15:03:05        | prlx/prlx-nginx-php-fpm-v2:7.1-master   |
+| 7.2.17           | 1.14.2        | 1.8.6 2019-06-11 15:03:05        | prlx/prlx-nginx-php-fpm-v2:7.2-master   |
+| 7.3.4           | 1.14.2        | 1.8.6 2019-06-11 15:03:05        | prlx/prlx-nginx-php-fpm-v2:7.3-master   |
 
 [Browse all tags on Docker Hub](https://hub.docker.com/r/prlx/prlx-nginx-php-fpm-v2/tags/)
 
