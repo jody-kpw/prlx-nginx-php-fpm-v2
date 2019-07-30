@@ -8,11 +8,11 @@
 
 ## Docker Tags 
 
-| PHP           | Nginx         | Docker tag                          |
-| ------------- | ------------- | -------------                       |
-| {{ PHP7.1 }}           | {{ NGINX7.1 }}        | prlx/prlx-nginx-php-fpm-v2:7.1-{{ BRANCH }}   |
-| {{ PHP7.2 }}           | {{ NGINX7.2 }}        | prlx/prlx-nginx-php-fpm-v2:7.2-{{ BRANCH }}   |
-| {{ PHP7.3 }}           | {{ NGINX7.3 }}        | prlx/prlx-nginx-php-fpm-v2:7.3-{{ BRANCH }}   |
+| PHP           | Nginx         | Composer         | Docker tag                             |
+| ------------- | ------------- | -------------    | -------------                          |
+| {{ PHP7.1 }}           | {{ NGINX7.1 }}        | {{ COMPOSER7.1 }}        | prlx/prlx-nginx-php-fpm-v2:7.1-{{ BRANCH }}   |
+| {{ PHP7.2 }}           | {{ NGINX7.2 }}        | {{ COMPOSER7.2 }}        | prlx/prlx-nginx-php-fpm-v2:7.2-{{ BRANCH }}   |
+| {{ PHP7.3 }}           | {{ NGINX7.3 }}        | {{ COMPOSER7.3 }}        | prlx/prlx-nginx-php-fpm-v2:7.3-{{ BRANCH }}   |
 
 [Browse all tags on Docker Hub](https://hub.docker.com/r/prlx/prlx-nginx-php-fpm-v2/tags/)
 

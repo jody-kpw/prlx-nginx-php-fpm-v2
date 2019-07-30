@@ -80,6 +80,21 @@ RUN set -x \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
+# Composer
+RUN EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)" && \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    ACTUAL_SIGNATURE="$(php -r "echo hash_file('sha384', 'composer-setup.php');")" && \
+    if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]; \
+    then \
+        >&2 echo 'ERROR: Invalid installer signature' \
+        rm composer-setup.php \
+    exit 1; \
+    fi && \
+    php composer-setup.php --quiet --install-dir=/usr/local/bin --filename=composer && \
+    RESULT=$? && \
+    rm composer-setup.php && \
+    exit $RESULT
+
 # Atatus
 RUN wget https://s3.amazonaws.com/atatus-artifacts/atatus-php/downloads/atatus-php-$ATATUS_VERSION-x64-musl.tar.gz && tar -xzvf atatus-php-$ATATUS_VERSION-x64-musl.tar.gz && cd atatus-php-$ATATUS_VERSION-x64-musl && ./install.sh && rm -f /atatus-php-$ATATUS_VERSION-x64-musl.tar.gz && rm -rf /atatus-php-$ATATUS_VERSION-x64-musl
 RUN sed -i -e 's#atatus.trace.response_time = 2000#atatus.trace.response_time = 1500#g' /etc/php/$PHP_VERSION/conf.d/atatus.ini && \

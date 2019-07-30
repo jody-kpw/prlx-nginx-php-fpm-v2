@@ -123,3 +123,7 @@ commandTests:
       value: "8123"
     args: ["/etc/config/write/nginx/sites-enabled/site.conf"]
     expectedOutput: ["listen 8123"]
+  - name: "Composer Exists"
+    setup: [["/configure.sh"]]
+    command: "composer"
+    expectedOutput: ["Composer version "]
